@@ -65,3 +65,23 @@ export const loginService = async ({ email, password }) => {
     },
   };
 };
+
+export const getProfileService = async (id) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: Number(id),
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      phone: true,
+    },
+  });
+
+  if (!user) {
+    errorResponse("This user is not exist!", 400);
+  }
+
+  return user;
+};
