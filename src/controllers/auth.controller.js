@@ -1,4 +1,8 @@
-import { loginService, registerService } from "../services/auth.service.js";
+import {
+  getProfileService,
+  loginService,
+  registerService,
+} from "../services/auth.service.js";
 import { sendResponse } from "../utils/response.util.js";
 
 export const registerController = async (req, res, next) => {
@@ -26,6 +30,18 @@ export const loginController = async (req, res, next) => {
     const data = await loginService({ email, password });
 
     return sendResponse(res, 200, true, "Login successfully!", data);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getProfileController = async (req, res, next) => {
+  try {
+    const id = req.user.id;
+
+    const user = await getProfileService(id);
+
+    return sendResponse(res, 200, true, "User profile get successfully!", user);
   } catch (error) {
     next(error);
   }

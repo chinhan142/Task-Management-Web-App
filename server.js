@@ -4,6 +4,7 @@ import cors from "cors";
 
 import authRoutes from "./src/routes/auth.routes.js";
 import projectRoutes from "./src/routes/project.routes.js";
+import { errorResponse, sendResponse } from "./src/utils/response.util.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -33,11 +34,9 @@ app.use((req, res, next) => {
 // Global middlware
 app.use((err, req, res, next) => {
   const statusCode = err.status || 500;
-  res.status(statusCode).json({
-    success: false,
-    message: err.message || "System error!",
-    data: null,
-  });
+  const message = err.message || "System error!";
+
+  sendResponse(res, statusCode, false, message, null);
 });
 
 app.listen(PORT, () => {
