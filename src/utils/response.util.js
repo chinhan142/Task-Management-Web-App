@@ -5,3 +5,9 @@ export const sendResponse = (res, statusCode, success, message, data) => {
     data,
   });
 };
+
+export const errorResponse = (message, statusCode) => {
+  const error = new Error(`${message}`);
+  error.status = statusCode;
+  throw error;
+};
