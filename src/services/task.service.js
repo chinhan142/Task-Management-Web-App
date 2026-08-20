@@ -1,5 +1,15 @@
 import prisma from "../config/prisma.config.js";
 
+export const getAllTask = async (id) => {
+  const taskList = await prisma.task.findMany({
+    where: {
+      projectId: Number(id),
+    },
+  });
+
+  return taskList;
+};
+
 export const addTask = async ({
   id,
   createdById,
@@ -45,9 +55,18 @@ export const editTask = async ({
       status: editStatus,
       priority: editPriority,
       dueDate: editDueDate ? new Date(editDueDate) : undefined,
-      assigneeId: assigneeId ? Number(assigneeId) : null,
     },
   });
 
   return updatedTask;
+};
+
+export const deleteTask = async (taskId) => {
+  const deleteTask = await prisma.task.delete({
+    where: {
+      id: Number(taskId),
+    },
+  });
+
+  return deleteTask;
 };
