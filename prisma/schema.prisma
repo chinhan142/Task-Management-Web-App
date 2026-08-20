@@ -73,6 +73,7 @@ model ProjectMember {
   // Relationships
   project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@id([projectId, userId])
   @@map("project_members")
 }
@@ -88,7 +89,7 @@ model Task {
   assigneeId  Int?         @map("assignee_id")
   createdById Int          @map("created_by_id")
   createdAt   DateTime     @default(now()) @map("created_at")
-  updatedAt   DateTime     @updatedAt @map("updated_at")
+  updatedAt   DateTime     @default(now()) @updatedAt @map("updated_at")
 
   // Relationships
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
