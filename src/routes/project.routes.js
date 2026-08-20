@@ -7,6 +7,7 @@ import {
   getProjectDetailController,
   getProjectListController,
 } from "../controllers/project.controller.js";
+import { verifyProjectOwner } from "../middlewares/project.middleware.js";
 
 const router = express.Router();
 
@@ -16,8 +17,13 @@ router.get("/:id", validateToken, getProjectDetailController);
 
 router.post("/", validateToken, createProjectController);
 
-router.put("/:id", validateToken, editProjectController);
+router.put("/:id", validateToken, verifyProjectOwner, editProjectController);
 
-router.delete("/:id", validateToken, deleteProjectController);
+router.delete(
+  "/:id",
+  validateToken,
+  verifyProjectOwner,
+  deleteProjectController,
+);
 
 export default router;
