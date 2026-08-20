@@ -33,3 +33,33 @@ export const getProjectDetail = async ({ userId, id }) => {
 
   return project;
 };
+
+export const createProject = async ({
+  userId,
+  name,
+  description,
+  startDate,
+  endDate,
+}) => {
+  // Create project
+
+  const newProject = await prisma.project.create({
+    data: {
+      name: name,
+      description: description,
+      startDate: startDate,
+      endDate: endDate,
+      ownerId: Number(userId),
+    },
+  });
+
+  const newProjectTeam = await prisma.projectMember.create({
+    data: {
+      projectId: newProject.id,
+      userId: Number(userId),
+      role: "OWNER",
+    },
+  });
+
+  return newProject;
+};
