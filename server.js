@@ -4,6 +4,8 @@ import cors from "cors";
 
 import authRoutes from "./src/routes/auth.routes.js";
 import projectRoutes from "./src/routes/project.routes.js";
+import taskRoutes from "./src/routes/task.routes.js";
+
 import { errorResponse, sendResponse } from "./src/utils/response.util.js";
 
 const app = express();
@@ -23,6 +25,7 @@ app.get("/", (req, res) => {
 // Route defining
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/projects", projectRoutes);
+app.use("/api/v1/projects/:id/tasks", taskRoutes);
 
 // Middlware for routes
 app.use((req, res, next) => {
