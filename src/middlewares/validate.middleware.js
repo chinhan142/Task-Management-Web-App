@@ -15,7 +15,7 @@ export const validateRegister = (req, res, next) => {
   }
 
   if (password.length < 6) {
-    const error = new Error("Password length is not long enought!");
+    const error = new Error("Password length is not long enough!");
     error.status = 400;
     return next(error);
   }
