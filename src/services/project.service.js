@@ -86,3 +86,13 @@ export const editProject = async ({
 
   return updateProject;
 };
+
+export const deleteProject = async (id) => {
+  const deleteProject = await prisma.project.delete({
+    where: {
+      id: Number(id),
+    },
+  });
+
+  return deleteProject;
+};
