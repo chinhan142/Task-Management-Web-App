@@ -80,7 +80,7 @@ export const getProfileService = async (id) => {
   });
 
   if (!user) {
-    errorResponse("This user is not exist!", 400);
+    errorResponse("This user does not exist!", 404);
   }
 
   return user;
