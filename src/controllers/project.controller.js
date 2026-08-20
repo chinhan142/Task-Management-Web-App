@@ -1,5 +1,6 @@
 import {
   createProject,
+  editProject,
   getProjectDetail,
   getProjectList,
 } from "../services/project.service.js";
@@ -54,6 +55,30 @@ export const createProjectController = async (req, res, next) => {
   }
 };
 
-export const editProjectController = (req, res, next) => {};
+export const editProjectController = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const { editName, editDescription, editStartDate, editEndDate } = req.body;
+
+    const updateProject = await editProject({
+      id,
+      editName,
+      editDescription,
+      editStartDate,
+      editEndDate,
+    });
+
+    sendResponse(
+      res,
+      200,
+      true,
+      "Project updated successfully!",
+      updateProject,
+    );
+  } catch (error) {
+    next(error);
+  }
+};
 
 export const deleteProjectController = (req, res, next) => {};

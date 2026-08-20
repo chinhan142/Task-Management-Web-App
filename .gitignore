@@ -10,3 +10,7 @@ node_modules/
 .claude
 .windsurf
 postman
+notes/
+need_fixing_module_auth.md
+need_fixing_module_project.md
+

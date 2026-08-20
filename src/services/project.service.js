@@ -24,7 +24,7 @@ export const getProjectList = async (userId) => {
 };
 
 export const getProjectDetail = async ({ userId, id }) => {
-  const project = await prisma.project.findUnique({
+  const project = await prisma.project.findFirst({
     where: {
       id: Number(id),
       ownerId: Number(userId),
@@ -62,4 +62,27 @@ export const createProject = async ({
   });
 
   return newProject;
+};
+
+export const editProject = async ({
+  id,
+  editName,
+  editDescription,
+  editStartDate,
+  editEndDate,
+}) => {
+  const updateProject = await prisma.project.update({
+    where: {
+      id: Number(id),
+    },
+    data: {
+      name: editName,
+      description: editDescription,
+      startDate: new Date(editStartDate),
+      endDate: new Date(editEndDate),
+      updatedAt: new Date(Date.now()),
+    },
+  });
+
+  return updateProject;
 };
