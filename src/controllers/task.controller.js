@@ -1,5 +1,22 @@
-import { addTask, editTask } from "../services/task.service.js";
+import {
+  addTask,
+  deleteTask,
+  editTask,
+  getAllTask,
+} from "../services/task.service.js";
 import { sendResponse } from "../utils/response.util.js";
+
+export const getAllTaskController = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const taskList = await getAllTask(id);
+
+    sendResponse(res, 200, true, "Get tasks list successfully!", taskList);
+  } catch (error) {
+    next(error);
+  }
+};
 
 export const addTaskController = async (req, res, next) => {
   try {
@@ -49,6 +66,18 @@ export const editTaskController = async (req, res, next) => {
     });
 
     sendResponse(res, 200, true, "Task updated successfully!", updatedTask);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteTaskController = async (req, res, next) => {
+  try {
+    const { taskId } = req.params;
+
+    const deletedTask = await deleteTask(taskId);
+
+    sendResponse(res, 200, true, "Task removed successfully!", true);
   } catch (error) {
     next(error);
   }
