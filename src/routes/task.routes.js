@@ -3,6 +3,7 @@ import {
   addTaskController,
   deleteTaskController,
   editTaskController,
+  editTaskStatusController,
   getAllTaskController,
 } from "../controllers/task.controller.js";
 import { validateToken } from "../middlewares/auth.middleware.js";
@@ -15,6 +16,13 @@ router.get("/", validateToken, verifyProjectOwner, getAllTaskController);
 router.post("/", validateToken, verifyProjectOwner, addTaskController);
 
 router.put("/:taskId", validateToken, verifyProjectOwner, editTaskController);
+
+router.patch(
+  "/:taskId/status",
+  validateToken,
+  verifyProjectOwner,
+  editTaskStatusController,
+);
 
 router.delete(
   "/:taskId",

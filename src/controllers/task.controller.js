@@ -2,6 +2,7 @@ import {
   addTask,
   deleteTask,
   editTask,
+  editTaskStatus,
   getAllTask,
 } from "../services/task.service.js";
 import { sendResponse } from "../utils/response.util.js";
@@ -78,6 +79,25 @@ export const deleteTaskController = async (req, res, next) => {
     const deletedTask = await deleteTask(taskId);
 
     sendResponse(res, 200, true, "Task removed successfully!", true);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const editTaskStatusController = async (req, res, next) => {
+  try {
+    const { taskId } = req.params;
+    const { editStatus } = req.body;
+
+    const newTaskStatus = await editTaskStatus({ taskId, editStatus });
+
+    sendResponse(
+      res,
+      200,
+      true,
+      "Task status update successfully!",
+      newTaskStatus.status,
+    );
   } catch (error) {
     next(error);
   }
