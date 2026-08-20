@@ -1,5 +1,6 @@
 import {
   createProject,
+  deleteProject,
   editProject,
   getProjectDetail,
   getProjectList,
@@ -81,4 +82,14 @@ export const editProjectController = async (req, res, next) => {
   }
 };
 
-export const deleteProjectController = (req, res, next) => {};
+export const deleteProjectController = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const deletedProject = await deleteProject(id);
+
+    sendResponse(res, 200, true, "Project has deleted successfully!", true);
+  } catch (error) {
+    next(error);
+  }
+};
