@@ -10,8 +10,17 @@ import { sendResponse } from "../utils/response.util.js";
 export const getAllTaskController = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const { page, limit, status, priority, assigneeId, search } = req.query;
 
-    const taskList = await getAllTask(id);
+    const taskList = await getAllTask({
+      id,
+      page,
+      limit,
+      status,
+      priority,
+      assigneeId,
+      search,
+    });
 
     sendResponse(res, 200, true, "Get tasks list successfully!", taskList);
   } catch (error) {

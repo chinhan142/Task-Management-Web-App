@@ -1,13 +1,53 @@
 import prisma from "../config/prisma.config.js";
 
-export const getAllTask = async (id) => {
+export const getAllTask = async ({
+  id,
+  page,
+  limit,
+  status,
+  priority,
+  assigneeId,
+  search,
+}) => {
+  const currentPage = Number(page) || 1;
+  const currentLimit = Number(limit) || 2;
+
+  const skip = (currentPage - 1) * currentLimit;
+
+  const filterCondition = {
+    projectId: Number(id),
+    status: status || undefined,
+    priority: priority || undefined,
+    assigneeId: Number(assigneeId) || undefined,
+    title: search
+      ? {
+          contains: search,
+        }
+      : undefined,
+  };
+
   const taskList = await prisma.task.findMany({
-    where: {
-      projectId: Number(id),
+    skip: skip,
+    take: currentLimit,
+    where: filterCondition,
+    orderBy: {
+      dueDate: "asc",
     },
   });
 
-  return taskList;
+  const totalTask = await prisma.task.count({
+    where: filterCondition,
+  });
+
+  const totalPages = Math.ceil(totalTask / currentLimit);
+
+  return {
+    totalTask,
+    currentPage,
+    currentLimit,
+    totalPages,
+    taskList,
+  };
 };
 
 export const addTask = async ({
