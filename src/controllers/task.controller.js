@@ -2,6 +2,7 @@ import {
   addTask,
   deleteTask,
   editTask,
+  editTaskStatus,
   getAllTask,
 } from "../services/task.service.js";
 import { sendResponse } from "../utils/response.util.js";
@@ -9,8 +10,17 @@ import { sendResponse } from "../utils/response.util.js";
 export const getAllTaskController = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const { page, limit, status, priority, assigneeId, search } = req.query;
 
-    const taskList = await getAllTask(id);
+    const taskList = await getAllTask({
+      id,
+      page,
+      limit,
+      status,
+      priority,
+      assigneeId,
+      search,
+    });
 
     sendResponse(res, 200, true, "Get tasks list successfully!", taskList);
   } catch (error) {
@@ -78,6 +88,25 @@ export const deleteTaskController = async (req, res, next) => {
     const deletedTask = await deleteTask(taskId);
 
     sendResponse(res, 200, true, "Task removed successfully!", true);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const editTaskStatusController = async (req, res, next) => {
+  try {
+    const { taskId } = req.params;
+    const { editStatus } = req.body;
+
+    const newTaskStatus = await editTaskStatus({ taskId, editStatus });
+
+    sendResponse(
+      res,
+      200,
+      true,
+      "Task status update successfully!",
+      newTaskStatus.status,
+    );
   } catch (error) {
     next(error);
   }
