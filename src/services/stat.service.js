@@ -38,3 +38,24 @@ export const getProjectStats = async (id) => {
 
   return { totalTask, statusSummary, overDueTasks };
 };
+
+export const getPersonalTaskStat = async (userId) => {
+  const [assignedTasks, completedTasks] = await Promise.all([
+    prisma.task.count({
+      where: {
+        assigneeId: Number(userId),
+      },
+    }),
+
+    prisma.task.count({
+      where: {
+        assigneeId: Number(userId),
+        status: {
+          in: ["DONE"],
+        },
+      },
+    }),
+  ]);
+
+  return { assignedTasks, completedTasks };
+};
