@@ -26,6 +26,10 @@ export const verifyTaskOwner = async (req, res, next) => {
       },
     });
 
+    if (!project) {
+      errorResponse("Project not found!", 404);
+    }
+
     const isProjectOwner = project.ownerId === Number(userId);
     const isAssignee = task.assigneeId === Number(userId);
 
