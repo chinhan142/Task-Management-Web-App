@@ -27,7 +27,11 @@ export const getProjectDetail = async ({ userId, id }) => {
   const project = await prisma.project.findFirst({
     where: {
       id: Number(id),
-      ownerId: Number(userId),
+      members: {
+        some: {
+          userId: Number(userId),
+        },
+      },
     },
   });
 
@@ -41,8 +45,6 @@ export const createProject = async ({
   startDate,
   endDate,
 }) => {
-  // Create project
-
   const newProject = await prisma.project.create({
     data: {
       name: name,
