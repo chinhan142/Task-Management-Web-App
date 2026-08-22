@@ -7,13 +7,21 @@ import {
   getProjectDetailController,
   getProjectListController,
 } from "../controllers/project.controller.js";
-import { verifyProjectOwner } from "../middlewares/project.middleware.js";
+import {
+  verifyProjectMember,
+  verifyProjectOwner,
+} from "../middlewares/project.middleware.js";
 
 const router = express.Router();
 
 router.get("/", validateToken, getProjectListController);
 
-router.get("/:id", validateToken, getProjectDetailController);
+router.get(
+  "/:id",
+  validateToken,
+  verifyProjectMember,
+  getProjectDetailController,
+);
 
 router.post("/", validateToken, createProjectController);
 

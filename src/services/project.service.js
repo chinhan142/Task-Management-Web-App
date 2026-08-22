@@ -1,4 +1,5 @@
 import prisma from "../config/prisma.config.js";
+import { errorResponse } from "../utils/response.util.js";
 
 export const getProjectList = async (userId) => {
   const projectList = await prisma.projectMember.findMany({
@@ -27,13 +28,24 @@ export const getProjectDetail = async ({ userId, id }) => {
   const project = await prisma.project.findFirst({
     where: {
       id: Number(id),
+    },
+    include: {
       members: {
-        some: {
-          userId: Number(userId),
+        select: {
+          user: {
+            select: {
+              name: true,
+              email: true,
+            },
+          },
         },
       },
     },
   });
+
+  if (!project) {
+    errorResponse("Project not found!", 404);
+  }
 
   return project;
 };
