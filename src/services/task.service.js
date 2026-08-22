@@ -68,7 +68,7 @@ export const addTask = async ({
       priority: priority ? priority : undefined,
       dueDate: new Date(dueDate),
       projectId: Number(id),
-      assigneeId: Number(assigneeId),
+      assigneeId: assigneeId ? Number(assigneeId) : null,
       createdById: Number(createdById),
     },
   });

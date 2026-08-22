@@ -17,6 +17,6 @@ export const validateToken = (req, res, next) => {
 
     next();
   } catch (error) {
-    errorResponse("Token is not valid!", 401);
+    next(error);
   }
 };
