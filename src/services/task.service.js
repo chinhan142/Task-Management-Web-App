@@ -66,7 +66,7 @@ export const addTask = async ({
       description: description,
       status: status ? status : undefined,
       priority: priority ? priority : undefined,
-      dueDate: new Date(dueDate),
+      dueDate: dueDate ? new Date(dueDate) : undefined,
       projectId: Number(id),
       assigneeId: assigneeId ? Number(assigneeId) : null,
       createdById: Number(createdById),
@@ -84,6 +84,7 @@ export const editTask = async ({
   editStatus,
   editPriority,
   editDueDate,
+  editAssigneeId,
 }) => {
   const updatedTask = await prisma.task.update({
     where: {
@@ -95,6 +96,7 @@ export const editTask = async ({
       status: editStatus,
       priority: editPriority,
       dueDate: editDueDate ? new Date(editDueDate) : undefined,
+      assigneeId: editAssigneeId ? Number(editAssigneeId) : undefined,
     },
   });
 

@@ -63,6 +63,7 @@ export const editTaskController = async (req, res, next) => {
       editStatus,
       editPriority,
       editDueDate,
+      editAssigneeId,
     } = req.body;
 
     const updatedTask = await editTask({
@@ -73,6 +74,7 @@ export const editTaskController = async (req, res, next) => {
       editStatus,
       editPriority,
       editDueDate,
+      editAssigneeId,
     });
 
     sendResponse(res, 200, true, "Task updated successfully!", updatedTask);
