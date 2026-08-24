@@ -17,6 +17,7 @@ export const validateToken = (req, res, next) => {
 
     next();
   } catch (error) {
+    error.status = 401;
     next(error);
   }
 };

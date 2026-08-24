@@ -92,8 +92,8 @@ export const editProject = async ({
     data: {
       name: editName,
       description: editDescription,
-      startDate: new Date(editStartDate),
-      endDate: new Date(editEndDate),
+      startDate: editStartDate ? new Date(editStartDate) : undefined,
+      endDate: editEndDate ? new Date(editEndDate) : undefined,
       updatedAt: new Date(Date.now()),
     },
   });
