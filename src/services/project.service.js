@@ -57,12 +57,16 @@ export const createProject = async ({
   startDate,
   endDate,
 }) => {
+  if (startDate && endDate && new Date(endDate) < new Date(startDate)) {
+    errorResponse("End date cannot be earlier than start date!", 400);
+  }
+
   const newProject = await prisma.project.create({
     data: {
       name: name,
       description: description,
-      startDate: startDate,
-      endDate: endDate,
+      startDate: startDate ? new Date(startDate) : undefined,
+      endDate: endDate ? new Date(endDate) : undefined,
       ownerId: Number(userId),
     },
   });
@@ -85,6 +89,14 @@ export const editProject = async ({
   editStartDate,
   editEndDate,
 }) => {
+  if (
+    editStartDate &&
+    editEndDate &&
+    new Date(editEndDate) < new Date(editStartDate)
+  ) {
+    errorResponse("End date cannot be earlier than start date!", 400);
+  }
+
   const updateProject = await prisma.project.update({
     where: {
       id: Number(id),
